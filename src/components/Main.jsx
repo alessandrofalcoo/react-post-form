@@ -6,29 +6,38 @@ export default function Main() {
     const [postDescription, setPostDescription] = useState('')
     const [checkbox, setCheckbox] = useState(false)
 
-    fetch('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts')
-        .then(res => res.json(
-
-        ))
-        .then(data => {
-
-        });
-
-    function handleCheckBox(element) {
-        if (element) {
-            setCheckbox('Available');
-
-        } else if (element === false) {
-            setCheckbox('Unavailable');
-
+    function handleCheckBox(e) {
+        if (e.target.type === 'checkbox') {
+            setCheckbox(e.target.checked)
+        } else {
+            setCheckbox(e.target.value)
         }
     }
+
 
     function handleFormSubmit(e) {
         e.preventDefault()
         console.log('button clicked');
 
+        fetch('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts', {
+            method: 'POST',
+            'Content-type ': 'application/json'
+        })
+
+            .then(res => res.json(
+
+            ))
+            .then(data => {
+
+            });
     }
+
+
+
+
+
+
+
 
 
     return (
@@ -59,12 +68,12 @@ export default function Main() {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="body" className="form-label"></label>
-                        <textarea className="form-control" name="body" id="body" rows="6"></textarea>
+                        <textarea className="form-control" name="body" id="body" rows="6" placeholder="Body"></textarea>
                     </div>
 
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="checkbox" onChange={handleCheckBox} />
-                        <label className="form-check-label" htmlFor="checkbox" >{checkbox}</label>
+                        <input className="form-check-input" type="checkbox" id="checkbox" onChange={handleCheckBox} checked={checkbox} />
+                        <label className="form-check-label" htmlFor="checkbox" ></label>
                     </div>
                     <button type="submit" className="btn btn-primary mt-3" onChange={handleFormSubmit} value={e => e.target.value}>Submit</button>
 
