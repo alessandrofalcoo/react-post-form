@@ -1,11 +1,10 @@
 import { useState } from "react"
 
 export default function Main() {
-    const [post, setPost] = useState(false)
+    const [post, setPost] = useState([])
     const [authorName, setAuthorName] = useState('')
     const [titleName, setTitleName] = useState('')
     const [postDescription, setPostDescription] = useState('')
-    const [checkbox, setCheckbox] = useState(false)
 
     function handleCheckBox(e) {
         if (e.target.type === 'checkbox') {
@@ -20,17 +19,20 @@ export default function Main() {
         e.preventDefault()
         console.log('button clicked');
 
-        fetch('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts', {
+        fetch("https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts", {
             method: 'POST',
-            headers: { 'Content-type ': 'application/json' },
-            body: JSON.stringify(post)
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(post),
         })
+
 
             .then(res => {
                 if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${res.status}`);
                 }
-                return response.json()
+                return res.json()
             })
             .then(data => {
                 console.log('Success: ', data);
