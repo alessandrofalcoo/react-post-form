@@ -1,19 +1,23 @@
 import { useState } from "react"
 
 export default function Main() {
-    const [post, setPost] = useState([])
-    const [authorName, setAuthorName] = useState('')
-    const [titleName, setTitleName] = useState('')
-    const [postDescription, setPostDescription] = useState('')
+    const [post, setPost] = useState({
+        author: '',
+        title: '',
+        body: '',
+        public: false
+    })
 
     function handleCheckBox(e) {
         if (e.target.type === 'checkbox') {
+
             setPost(e.target.checked)
+            console.log(post);
         } else {
             setPost(e.target.value)
+
         }
     }
-
 
     function handleFormSubmit(e) {
         e.preventDefault()
@@ -24,7 +28,7 @@ export default function Main() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(post),
+            body: JSON.stringify(postData),
         })
 
 
@@ -37,7 +41,11 @@ export default function Main() {
             .then(data => {
                 console.log('Success: ', data);
 
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
+
     }
 
     return (
@@ -45,7 +53,6 @@ export default function Main() {
             <div className="container">
                 <form method="POST" onSubmit={handleFormSubmit}>
                     <div className="mb-3">
-                        <label htmlFor="" className="form-label"></label>
                         <input
                             type="text"
                             className="form-control"
@@ -54,11 +61,12 @@ export default function Main() {
                             aria-describedby="helpId"
                             placeholder="Inserisci il nome dell'autore..."
                             required
-                        />
+/*                             value={authorName}
+                            onChange={(e) => (e.target.value)}
+ */                        />
 
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="" className="form-label"></label>
                         <input
                             type="text"
                             className="form-control"
@@ -67,16 +75,36 @@ export default function Main() {
                             aria-describedby="helpId"
                             placeholder="Inserisci il titolo del post..."
                             required
-                        />
+/*                             value={titleName}
+                            onChange={(e) => (e.target.value)}
+ */                        />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="body" className="form-label"></label>
-                        <textarea className="form-control" name="body" id="body" rows="6" placeholder="Body" required></textarea>
+                        <textarea
+                            className="form-control"
+                            name="body"
+                            id="body"
+                            rows="6"
+                            placeholder="Body"
+                            required
+                        /*                             value={postDescription}
+                                                    onChange={(e) => (e.target.value)}
+                         */
+                        >
+
+                        </textarea>
                     </div>
 
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="checkbox" onChange={handleCheckBox} checked={post} required />
-                        <label className="form-check-label" htmlFor="checkbox" > Accetto i termini di condizioni</label>
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="checkbox"
+                            checked={handleCheckBox}
+                            onChange={handleCheckBox}
+
+                        />
+                        <label className="form-check-label" htmlFor="checkbox" ></label>
                     </div>
                     <button type="submit" className="btn btn-primary mt-3">Submit</button>
 
