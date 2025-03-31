@@ -2,7 +2,9 @@ import { useState } from "react"
 
 export default function Main() {
     const [authorName, setAuthorName] = useState('')
-
+    const [titleName, setTitleName] = useState('')
+    const [postDescription, setPostDescription] = useState('')
+    const [checkbox, setCheckbox] = useState(false)
 
     return (
         <>
