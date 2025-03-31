@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 export default function Main() {
+    const [post, setPost] = useState()
     const [authorName, setAuthorName] = useState('')
     const [titleName, setTitleName] = useState('')
     const [postDescription, setPostDescription] = useState('')
@@ -21,12 +22,16 @@ export default function Main() {
 
         fetch('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts', {
             method: 'POST',
-            'Content-type ': 'application/json'
+            headers: { 'Content-type ': 'application/json' },
+            body: JSON.stringify(post)
         })
 
-            .then(res => res.json(
-
-            ))
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json()
+            })
             .then(data => {
 
             });
@@ -43,7 +48,7 @@ export default function Main() {
     return (
         <>
             <div className="container">
-                <form>
+                <form method="POST" onSubmit={handleFormSubmit}>
                     <div className="mb-3">
                         <label htmlFor="" className="form-label"></label>
                         <input
@@ -75,7 +80,7 @@ export default function Main() {
                         <input className="form-check-input" type="checkbox" id="checkbox" onChange={handleCheckBox} checked={checkbox} />
                         <label className="form-check-label" htmlFor="checkbox" ></label>
                     </div>
-                    <button type="submit" className="btn btn-primary mt-3" onChange={handleFormSubmit} value={e => e.target.value}>Submit</button>
+                    <button type="submit" className="btn btn-primary mt-3">Submit</button>
 
                 </form>
 
